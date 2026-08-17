@@ -3,43 +3,68 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>TCH Works</title>
+  <title>TCH Works · Centre</title>
   <style>
+    :root { color-scheme: dark; }
     html,body{margin:0;min-height:100%;background:#0D1323;color:#F7F7F5;font-family:Inter,system-ui,sans-serif}
-    main{min-height:100vh;display:grid;place-items:center;padding:2rem}
-    .card{max-width:26rem;text-align:center}
-    .mark{letter-spacing:.08em;font-weight:700;font-size:1.6rem}
+    main{max-width:42rem;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+    .mark{letter-spacing:.08em;font-weight:700;font-size:1.5rem}
     .bar{display:inline-block;width:1.4rem;height:.28rem;background:#2563EB;border-radius:99px;vertical-align:middle;margin:0 .05rem}
-    h1{font-weight:600;font-size:1.5rem;margin:.8rem 0 .4rem}
-    p{color:#9CA3AF;line-height:1.5}
+    p.kicker{color:#9CA3AF;text-transform:uppercase;letter-spacing:.18em;font-size:.7rem;margin:1.2rem 0 0}
+    h1{font-weight:600;font-size:2rem;margin:.4rem 0 .6rem;line-height:1.15}
+    p{color:#9CA3AF;line-height:1.55}
     a{color:#2563EB}
+    .row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.25rem}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;border-radius:8px;background:#2563EB;color:#F7F7F5;text-decoration:none;font-size:.9rem}
+    .btn.ghost{background:#1A2438;color:#F7F7F5}
+    .card{background:#141B2E;border-radius:12px;padding:1.15rem 1.2rem;margin-top:1rem}
+    .card h2{margin:0 0 .4rem;font-size:1.15rem}
+    .muted{color:#6B7280;font-size:.8rem}
   </style>
 </head>
 <body>
 <main>
-  <div class="card">
-    <div class="mark">T<span class="bar"></span>H</div>
-    <h1>TCH Works</h1>
-    <p id="msg">Opening the live desk…</p>
-    <p><a id="fallback" href="https://templatevault.org/">Open manually</a></p>
+  <div class="mark">T<span class="bar"></span>H</div>
+  <p class="kicker">TCH Works · management centre</p>
+  <h1>Drive the house. The shop lives on the vault.</h1>
+  <p>This door is the centre, not the storefront. Admin Pack is a product on templatevault.org.</p>
+  <div class="row">
+    <a class="btn" href="https://templatevault.org/shop">Open the shop</a>
+    <a class="btn ghost" id="desk" href="#">Open live desk</a>
   </div>
+  <article class="card">
+    <h2>Today</h2>
+    <p>If it is not on a quote, it is a favour. Click a network. Confirm the post there.</p>
+    <div class="row">
+      <a class="btn" target="_blank" rel="noreferrer" href="https://twitter.com/intent/tweet?text=If%20it%20is%20not%20on%20a%20quote%2C%20it%20is%20a%20favour.%0A%0AUseful%20tools%20for%20calmer%20work.%20Launch%20Bundle%20%C2%A319.%0A%0Ahttps%3A%2F%2Ftemplatevault.org%2Fshop">X</a>
+      <a class="btn ghost" target="_blank" rel="noreferrer" href="https://www.pinterest.com/pin/create/button/?url=https%3A%2F%2Ftemplatevault.org%2Fshop&description=UK%20sole%20trader%20quote%20before%20the%20work">Pinterest</a>
+      <a class="btn ghost" target="_blank" rel="noreferrer" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Ftemplatevault.org%2Fshop">LinkedIn</a>
+      <a class="btn ghost" target="_blank" rel="noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftemplatevault.org%2Fshop">Facebook</a>
+      <a class="btn ghost" target="_blank" rel="noreferrer" href="https://www.tiktok.com/tiktokstudio/upload">TikTok</a>
+      <a class="btn ghost" target="_blank" rel="noreferrer" href="https://www.instagram.com/">Instagram</a>
+    </div>
+  </article>
+  <p class="muted" id="msg">Door · tch-connect. Shop · templatevault.org</p>
 </main>
 <script>
-  const extra = location.search || "";
-  const hash = location.hash || "";
-  async function go() {
-    let url = "https://templatevault.org/";
+  async function boot() {
+    const desk = document.getElementById("desk");
     try {
       const r = await fetch("live.json?t=" + Date.now(), { cache: "no-store" });
       const j = await r.json();
-      if (j && j.url) url = j.url.replace(/\/?$/, "/");
-    } catch (e) {}
-    const a = document.getElementById("fallback");
-    const dest = url.replace(/\/?$/, "/") + extra.replace(/^\?/, "?") + hash;
-    a.href = dest;
-    window.location.replace(dest);
+      const shop = (j && j.shop) || "https://templatevault.org/";
+      const url = j && j.url;
+      if (url && !String(url).includes("templatevault.org")) {
+        desk.href = url;
+      } else {
+        desk.href = shop;
+        desk.textContent = "Open the shop";
+      }
+    } catch (e) {
+      desk.href = "https://templatevault.org/shop";
+    }
   }
-  go();
+  boot();
 </script>
 </body>
 </html>
