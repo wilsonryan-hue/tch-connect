@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>TCH Works</title>
+  <style>
+    html,body{margin:0;min-height:100%;background:#0D1323;color:#F7F7F5;font-family:Inter,system-ui,sans-serif}
+    main{min-height:100vh;display:grid;place-items:center;padding:2rem}
+    .card{max-width:26rem;text-align:center}
+    .mark{letter-spacing:.08em;font-weight:700;font-size:1.6rem}
+    .bar{display:inline-block;width:1.4rem;height:.28rem;background:#2563EB;border-radius:99px;vertical-align:middle;margin:0 .05rem}
+    h1{font-weight:600;font-size:1.5rem;margin:.8rem 0 .4rem}
+    p{color:#9CA3AF;line-height:1.5}
+    a{color:#2563EB}
+  </style>
+</head>
+<body>
+<main>
+  <div class="card">
+    <div class="mark">T<span class="bar"></span>H</div>
+    <h1>TCH Works</h1>
+    <p id="msg">Opening the live desk…</p>
+    <p><a id="fallback" href="https://templatevault.org/">Open manually</a></p>
+  </div>
+</main>
+<script>
+  const extra = location.search || "";
+  const hash = location.hash || "";
+  async function go() {
+    let url = "https://templatevault.org/";
+    try {
+      const r = await fetch("live.json?t=" + Date.now(), { cache: "no-store" });
+      const j = await r.json();
+      if (j && j.url) url = j.url.replace(/\/?$/, "/");
+    } catch (e) {}
+    const a = document.getElementById("fallback");
+    const dest = url.replace(/\/?$/, "/") + extra.replace(/^\?/, "?") + hash;
+    a.href = dest;
+    window.location.replace(dest);
+  }
+  go();
+</script>
+</body>
+</html>
