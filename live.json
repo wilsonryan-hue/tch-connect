@@ -1,8 +1,4 @@
 {
-  "url": "",
-  "shop": "https://templatevault.org/",
-  "centre": "https://wilsonryan-hue.github.io/tch-connect/",
-  "updated": "2026-08-17T10:30:00Z",
-  "app": "TCH Works Centre",
-  "note": "Door is the management centre. Shop is templatevault.org. Do not redirect the door to the shop."
+  "app": "TCH Works shop",
+  "shop": "https://wilsonryan-hue.github.io/"
 }
