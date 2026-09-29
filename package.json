@@ -1,0 +1,13 @@
+{
+  "name": "tch-connect",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/verify-build.mjs",
+    "verify": "node scripts/verify-build.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
