@@ -199,9 +199,12 @@
     } catch {
       status.textContent = 'No scan results yet.';
       grid.replaceChildren(el('div', { class: 'note' },
-        el('p', { text: 'Focus Points appear here once the mailbox scan has run. Connect each person with ' }),
+        el('p', {},
+          'Focus Points appear here once the mailbox scan has run. Connect each person with ',
+          el('code', { text: 'node scripts/focus-auth.mjs' }),
+          ' and add the tokens as repository secrets — see the README.',
+        ),
       ));
-      grid.firstChild.firstChild.append(el('code', { text: 'node scripts/focus-auth.mjs' }), ' and add the tokens as repository secrets — see the README.');
     }
   };
   boot();
