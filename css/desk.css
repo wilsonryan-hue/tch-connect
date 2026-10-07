@@ -185,11 +185,19 @@ button { font: inherit; color: inherit; }
 }
 
 .tick {
-  width: 20px;
-  height: 20px;
+  appearance: none;
+  width: 18px;
+  height: 18px;
   margin: 2px 0 0;
-  accent-color: var(--brass);
+  border: 1.5px solid var(--brass);
+  border-radius: 4px;
+  background: transparent;
   cursor: pointer;
+  flex-shrink: 0;
+}
+.tick:checked {
+  background: var(--brass);
+  box-shadow: inset 0 0 0 3px var(--elevated);
 }
 .task h3 {
   margin: 0 0 4px;
