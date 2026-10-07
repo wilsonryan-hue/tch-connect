@@ -1,0 +1,79 @@
+{
+  "scannedAt": "2026-10-07T00:55:00Z",
+  "source": "Ryan Wilson mailbox (wilson.ryan@live.com), threads involving Ryan, Kacey, Alex and Jim",
+  "keywords": ["deadline", "new business", "trusty", "quote", "new work", "urgent"],
+  "messages": [
+    {
+      "id": "golf-clubhouse-db-2026-08-24",
+      "subject": "Golf Course Clubhouse D&B Package",
+      "from": { "name": "Kacey Lindsay", "address": "kacey@treunroc.com" },
+      "to": ["greg.martin@smithbrewer.co.uk"],
+      "cc": ["alex@treunroc.com", "wilson.ryan@live.com", "jim@treunroc.com"],
+      "received": "2026-08-24T19:25:55Z",
+      "snippet": "Design & Build opportunity at Haste Hill after Iford. Asking Smith & Brewer for a proposal on stages, fees and programme. Wider Uxbridge and Pinner work may follow."
+    },
+    {
+      "id": "joinery-leads-kacey-2026-05-19",
+      "subject": "Re: New SE joinery leads ready",
+      "from": { "name": "Kacey Lindsay", "address": "kacey@treunroc.com" },
+      "to": ["wilson.ryan@live.com"],
+      "cc": [],
+      "received": "2026-05-19T16:08:39Z",
+      "snippet": "Hi mate. How r these leads now?"
+    },
+    {
+      "id": "joinery-leads-fwd-2026-05-16",
+      "subject": "Fwd: New SE joinery leads ready",
+      "from": { "name": "Ryan Wilson", "address": "wilson.ryan@live.com" },
+      "to": ["kacey@treunroc.com"],
+      "cc": [],
+      "received": "2026-05-16T11:30:29Z",
+      "snippet": "Forwarded the daily BD scan of new South East joinery leads to Kacey."
+    },
+    {
+      "id": "office-quote-2025-07-29",
+      "subject": "Re: Office Quote",
+      "from": { "name": "Kacey Lindsay", "address": "kacey@balmoralcontractsltd.co.uk" },
+      "to": ["wilson.ryan@live.com"],
+      "cc": [],
+      "received": "2025-07-29T09:43:46Z",
+      "snippet": "Hi mate. seems ok"
+    },
+    {
+      "id": "quotes-sheet-2024-11-08",
+      "subject": "Quotes",
+      "from": { "name": "Kacey Lindsay", "address": "kacey@balmoralcontractsltd.co.uk" },
+      "to": ["wilson.ryan@live.com"],
+      "cc": [],
+      "received": "2024-11-08T22:13:12Z",
+      "snippet": "Quote sheet updated got a few this week. That will take the works to 2million if won."
+    },
+    {
+      "id": "balmoral-new-business-2026-01-15",
+      "subject": "Fwd: Balmoral Insolvency Process",
+      "from": { "name": "Ryan Wilson", "address": "wilson.ryan@live.com" },
+      "to": ["kacey@treunroc.com"],
+      "cc": [],
+      "received": "2026-01-15T12:17:37Z",
+      "snippet": "Don't email anything to him from TR as we don't want new business being dragged into anything. Kacey needs to sign the engagement letter."
+    },
+    {
+      "id": "chatgpt-renewal-2026-10-06",
+      "subject": "ChatGPT - Your Business subscription renews soon",
+      "from": { "name": "OpenAI", "address": "noreply@tm.openai.com" },
+      "to": ["wilson.ryan@live.com"],
+      "cc": [],
+      "received": "2026-10-06T21:38:02Z",
+      "snippet": "Ryan Wilson's Secondary Workspace renews on Oct 13, 2026. You'll be billed for 2 Standard seats."
+    },
+    {
+      "id": "noise-newsletter",
+      "subject": "Prime Big Deal Days ends at midnight",
+      "from": { "name": "Amazon.co.uk", "address": "amazon-offers@amazon.co.uk" },
+      "to": ["wilson.ryan@live.com"],
+      "cc": [],
+      "received": "2026-10-07T00:45:16Z",
+      "snippet": "Last chance to save big."
+    }
+  ]
+}

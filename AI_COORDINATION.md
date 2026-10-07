@@ -75,7 +75,22 @@ No P2/P3 work should delay a P0/P1 task.
 
 ## Current active task
 
-None recorded here. Do not invent one. If Ryan activates work in this repository, create one task record above before substantial development.
+```text
+TASK_ID: FOCUS-POINTS-HOME
+PRIORITY: P1
+OWNER: Cursor
+REVIEWER:
+STATUS: ACTIVE
+START_SHA: c53e12e
+LAST_REVIEWED_SHA:
+ACCEPTANCE_CRITERIA:
+- Homepage shows Focus Points for Ryan, Kacey, Alex and Jim
+- Mail scan matches deadline, new business, trusty, quote, new work, urgent
+- Tasks are tickable and leave the list when done
+STOP_CONDITION: Homepage verified with tick behaviour
+MAX_REVIEW_CYCLES: 2
+REVIEW_CYCLES_USED: 0
+```
 
 ## Deferred
 

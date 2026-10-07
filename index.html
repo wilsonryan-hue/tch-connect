@@ -2,11 +2,29 @@
 <html lang="en-GB">
 <head>
   <meta charset="utf-8"/>
-  <meta http-equiv="refresh" content="0;url=https://wilsonryan-hue.github.io/"/>
-  <link rel="canonical" href="https://wilsonryan-hue.github.io/"/>
-  <title>TCH Works</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Focus Points · TCH desk</title>
+  <link rel="stylesheet" href="./css/desk.css"/>
 </head>
 <body>
-  <p><a href="https://wilsonryan-hue.github.io/">TCH Works shop</a></p>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="./">
+        <span class="mark">TR</span>
+        <span>
+          <h1>Focus Points</h1>
+          <p>Ryan, Kacey, Alex and Jim</p>
+        </span>
+      </a>
+      <a class="shop" href="https://wilsonryan-hue.github.io/">TCH Works shop</a>
+    </header>
+    <main data-desk></main>
+  </div>
+  <div class="toast" data-toast hidden>
+    <span data-toast-label>Cleared</span>
+    <button type="button" data-undo>Undo</button>
+  </div>
+  <p class="sr-only" data-live aria-live="polite"></p>
+  <script type="module" src="./js/desk.js"></script>
 </body>
 </html>
