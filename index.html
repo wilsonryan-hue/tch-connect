@@ -2,11 +2,210 @@
 <html lang="en-GB">
 <head>
   <meta charset="utf-8"/>
-  <meta http-equiv="refresh" content="0;url=https://wilsonryan-hue.github.io/"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="robots" content="noindex"/>
   <link rel="canonical" href="https://wilsonryan-hue.github.io/"/>
-  <title>TCH Works</title>
+  <title>TCH Works · Dashboard</title>
+  <style>
+    :root { color-scheme: dark; }
+    html,body{margin:0;min-height:100%;background:#0D1323;color:#F7F7F5;font-family:Inter,system-ui,sans-serif}
+    main{max-width:60rem;margin:0 auto;padding:2rem 1.25rem 4rem}
+    header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}
+    .mark{letter-spacing:.08em;font-weight:700;font-size:1.5rem}
+    .bar{display:inline-block;width:1.4rem;height:.28rem;background:#2563EB;border-radius:99px;vertical-align:middle;margin:0 .05rem}
+    .kicker{color:#9CA3AF;text-transform:uppercase;letter-spacing:.18em;font-size:.7rem;margin:.2rem 0 0}
+    h1{font-weight:600;font-size:1.6rem;margin:1.6rem 0 .2rem;line-height:1.2}
+    h2{font-size:1.05rem;margin:0}
+    p{color:#9CA3AF;line-height:1.55}
+    a{color:#60A5FA}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;border-radius:8px;background:#2563EB;color:#F7F7F5;text-decoration:none;font-size:.9rem}
+    .btn.ghost{background:#1A2438}
+    .status{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;color:#6B7280;font-size:.8rem;margin:.4rem 0 1rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));gap:1rem}
+    .card{background:#141B2E;border-radius:12px;padding:1rem 1.1rem 1.1rem;display:flex;flex-direction:column;gap:.7rem}
+    .card-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+    .count{min-width:1.6rem;height:1.6rem;padding:0 .45rem;border-radius:99px;background:#1A2438;color:#9CA3AF;font-size:.75rem;display:inline-flex;align-items:center;justify-content:center}
+    .count.hot{background:#7F1D1D;color:#FECACA}
+    ul.points{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.5rem}
+    li.point{display:grid;grid-template-columns:auto 1fr;gap:.65rem;align-items:start;background:#0F1628;border:1px solid #1F2A44;border-radius:10px;padding:.65rem .75rem;transition:opacity .25s,transform .25s}
+    li.point.high{border-color:#7F1D1D}
+    li.point.done{opacity:0;transform:translateX(.5rem)}
+    li.point input{width:1.3rem;height:1.3rem;margin:.1rem 0 0;accent-color:#2563EB;cursor:pointer}
+    .subject{font-size:.92rem;line-height:1.35;color:#F7F7F5;text-decoration:none;display:block}
+    .subject:hover{text-decoration:underline}
+    .meta{display:flex;flex-wrap:wrap;gap:.35rem .6rem;align-items:center;color:#6B7280;font-size:.74rem;margin-top:.3rem}
+    .tag{padding:.08rem .45rem;border-radius:99px;background:#1A2438;color:#C7D2FE;font-size:.7rem;text-transform:lowercase}
+    .tag.high{background:#7F1D1D;color:#FECACA}
+    .preview{color:#9CA3AF;font-size:.8rem;margin:.3rem 0 0;line-height:1.4}
+    .empty{color:#6B7280;font-size:.85rem;margin:0}
+    .note{background:#141B2E;border-radius:12px;padding:1rem 1.1rem;margin-top:1rem}
+    .note code{background:#0F1628;padding:.1rem .35rem;border-radius:4px;font-size:.85em}
+    #undo{display:none;position:fixed;left:50%;bottom:1.25rem;transform:translateX(-50%);background:#1A2438;color:#F7F7F5;border:1px solid #2563EB;border-radius:99px;padding:.55rem 1rem;font-size:.85rem;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+    #undo button{background:none;border:0;color:#60A5FA;font:inherit;cursor:pointer;margin-left:.6rem;text-decoration:underline}
+    .muted{color:#6B7280;font-size:.8rem;margin-top:2rem}
+    @media (prefers-reduced-motion: reduce){li.point{transition:none}}
+  </style>
 </head>
 <body>
-  <p><a href="https://wilsonryan-hue.github.io/">TCH Works shop</a></p>
+<main>
+  <header>
+    <div>
+      <div class="mark">T<span class="bar"></span>H</div>
+      <p class="kicker">TCH Works · dashboard</p>
+    </div>
+    <a class="btn" href="https://wilsonryan-hue.github.io/">Open the TCH Works shop</a>
+  </header>
+
+  <section id="focus" aria-labelledby="focus-title">
+    <h1 id="focus-title">Focus Points</h1>
+    <p>Emails that mention a watch word, one list per person. Tick a point when it is handled or no longer matters and it leaves the list.</p>
+    <div class="status" id="focus-status">Loading…</div>
+    <div class="grid" id="focus-grid"></div>
+  </section>
+
+  <p class="muted">Door · tch-connect. Ticked points are remembered on this device only.</p>
+</main>
+<div id="undo" role="status"><span id="undo-text"></span><button type="button" id="undo-btn">Undo</button></div>
+
+<script>
+(() => {
+  const DONE_KEY = 'tch-focus-done-v1';
+  const grid = document.getElementById('focus-grid');
+  const status = document.getElementById('focus-status');
+  const undo = document.getElementById('undo');
+  const undoText = document.getElementById('undo-text');
+  const undoBtn = document.getElementById('undo-btn');
+  let undoTimer = null;
+  let data = null;
+
+  const loadDone = () => {
+    try { return JSON.parse(localStorage.getItem(DONE_KEY) || '{}') || {}; } catch { return {}; }
+  };
+  const saveDone = (done) => { try { localStorage.setItem(DONE_KEY, JSON.stringify(done)); } catch {} };
+
+  const el = (tag, attrs = {}, ...children) => {
+    const node = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === 'class') node.className = v;
+      else if (k === 'text') node.textContent = v;
+      else if (k.startsWith('on')) node.addEventListener(k.slice(2), v);
+      else if (v != null) node.setAttribute(k, v);
+    }
+    for (const c of children) if (c) node.append(c);
+    return node;
+  };
+
+  const timeAgo = (iso) => {
+    const t = Date.parse(iso);
+    if (!t) return '';
+    const mins = Math.round((Date.now() - t) / 60000);
+    if (mins < 60) return `${Math.max(mins, 0)} min ago`;
+    const hours = Math.round(mins / 60);
+    if (hours < 48) return `${hours} h ago`;
+    return `${Math.round(hours / 24)} d ago`;
+  };
+
+  const pruneDone = (done) => {
+    const live = new Set();
+    for (const p of data.people) for (const it of p.items) live.add(it.id);
+    const cutoff = Date.now() - 60 * 86400000;
+    for (const [id, ts] of Object.entries(done)) {
+      if (!live.has(id) && ts < cutoff) delete done[id];
+    }
+    return done;
+  };
+
+  const showUndo = (item) => {
+    undoText.textContent = `Ticked “${item.subject}”`;
+    undo.style.display = 'block';
+    clearTimeout(undoTimer);
+    undoBtn.onclick = () => {
+      const done = loadDone();
+      delete done[item.id];
+      saveDone(done);
+      undo.style.display = 'none';
+      render();
+    };
+    undoTimer = setTimeout(() => { undo.style.display = 'none'; }, 6000);
+  };
+
+  const tick = (item, li) => {
+    const done = loadDone();
+    done[item.id] = Date.now();
+    saveDone(done);
+    li.classList.add('done');
+    setTimeout(() => { showUndo(item); render(); }, 250);
+  };
+
+  const renderPoint = (item) => {
+    const li = el('li', { class: `point ${item.priority === 'high' ? 'high' : ''}` });
+    const box = el('input', {
+      type: 'checkbox',
+      'aria-label': `Mark “${item.subject}” as done`,
+      onchange: () => tick(item, li),
+    });
+    const subject = item.link
+      ? el('a', { class: 'subject', href: item.link, target: '_blank', rel: 'noreferrer noopener', text: item.subject })
+      : el('span', { class: 'subject', text: item.subject });
+    const meta = el('div', { class: 'meta' },
+      el('span', { text: item.from }),
+      el('span', { text: timeAgo(item.received) }),
+      ...item.keywords.map((k) => el('span', { class: `tag ${item.priority === 'high' ? 'high' : ''}`, text: k })),
+    );
+    const body = el('div', {}, subject, meta, item.preview ? el('p', { class: 'preview', text: item.preview }) : null);
+    li.append(box, body);
+    return li;
+  };
+
+  const renderPerson = (person, done) => {
+    const open = person.items.filter((it) => !done[it.id]);
+    const hot = open.filter((it) => it.priority === 'high').length;
+    const card = el('article', { class: 'card' });
+    card.append(el('div', { class: 'card-head' },
+      el('h2', { text: person.name }),
+      el('span', { class: `count ${hot ? 'hot' : ''}`, text: String(open.length), title: hot ? `${hot} urgent` : '' }),
+    ));
+    if (person.status === 'not-connected') {
+      card.append(el('p', { class: 'empty', text: 'Mailbox not connected yet.' }));
+    } else if (person.status === 'error') {
+      card.append(el('p', { class: 'empty', text: `Scan failed: ${person.error || 'unknown error'}` }));
+    } else if (open.length === 0) {
+      card.append(el('p', { class: 'empty', text: person.items.length ? 'All ticked off.' : 'Nothing flagged.' }));
+    } else {
+      card.append(el('ul', { class: 'points' }, ...open.map(renderPoint)));
+    }
+    return card;
+  };
+
+  const render = () => {
+    const done = pruneDone(loadDone());
+    saveDone(done);
+    grid.replaceChildren(...data.people.map((p) => renderPerson(p, done)));
+    const total = data.people.reduce((n, p) => n + p.items.filter((it) => !done[it.id]).length, 0);
+    status.replaceChildren(
+      el('span', { text: `${total} open` }),
+      el('span', { text: `Scanned ${timeAgo(data.generated) || 'recently'}` }),
+      el('span', { text: `Last ${data.lookbackDays} days` }),
+      el('span', { text: `Watching: ${data.keywords.join(', ')}` }),
+    );
+  };
+
+  const boot = async () => {
+    try {
+      const r = await fetch('focus.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) throw new Error(String(r.status));
+      data = await r.json();
+      render();
+    } catch {
+      status.textContent = 'No scan results yet.';
+      grid.replaceChildren(el('div', { class: 'note' },
+        el('p', { text: 'Focus Points appear here once the mailbox scan has run. Connect each person with ' }),
+      ));
+      grid.firstChild.firstChild.append(el('code', { text: 'node scripts/focus-auth.mjs' }), ' and add the tokens as repository secrets — see the README.');
+    }
+  };
+  boot();
+})();
+</script>
 </body>
 </html>

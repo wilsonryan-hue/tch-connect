@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/verify-build.mjs",
-    "verify": "node scripts/verify-build.mjs"
+    "verify": "node scripts/verify-build.mjs",
+    "focus:scan": "node scripts/focus-scan.mjs",
+    "focus:auth": "node scripts/focus-auth.mjs"
   },
   "engines": {
     "node": ">=20"

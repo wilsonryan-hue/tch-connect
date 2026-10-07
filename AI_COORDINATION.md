@@ -75,7 +75,25 @@ No P2/P3 work should delay a P0/P1 task.
 
 ## Current active task
 
-None recorded here. Do not invent one. If Ryan activates work in this repository, create one task record above before substantial development.
+```text
+TASK_ID: FOCUS_POINTS
+PRIORITY: P1
+OWNER: Cursor
+REVIEWER: (unassigned)
+STATUS: REVIEW
+START_SHA: c53e12e
+LAST_REVIEWED_SHA:
+ACCEPTANCE_CRITERIA:
+  - Homepage shows a Focus Points section with one list per person (Ryan, Kacey, Alex, Jim).
+  - Hourly scan of each inbox for: deadline, new business, trusty, quote, new work, urgent.
+  - Each point is tickable; ticked points leave the list.
+  - No email data or tokens committed to git.
+STOP_CONDITION: Ryan has added FOCUS_CLIENT_ID and the four FOCUS_TOKEN_* secrets and the
+  dashboard shows real points.
+MAX_REVIEW_CYCLES: 2
+REVIEW_CYCLES_USED: 0
+NEEDS_RYAN: yes — app registration + secrets (see README).
+```
 
 ## Deferred
 

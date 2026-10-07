@@ -1,0 +1,15 @@
+{
+  "people": [
+    { "name": "Ryan", "secret": "FOCUS_TOKEN_RYAN" },
+    { "name": "Kacey", "secret": "FOCUS_TOKEN_KACEY" },
+    { "name": "Alex", "secret": "FOCUS_TOKEN_ALEX" },
+    { "name": "Jim", "secret": "FOCUS_TOKEN_JIM" }
+  ],
+  "keywords": {
+    "high": ["urgent", "deadline"],
+    "normal": ["new business", "new work", "trusty", "quote"]
+  },
+  "lookbackDays": 14,
+  "maxPerPerson": 12,
+  "includePreview": false
+}

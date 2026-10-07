@@ -2,6 +2,9 @@ name: pages
 on:
   push:
     branches: [main]
+  schedule:
+    # Hourly Focus Points mailbox scan; the deploy publishes the fresh focus.json.
+    - cron: '17 * * * *'
   workflow_dispatch:
 permissions:
   contents: read
@@ -16,6 +19,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      FOCUS_ADMIN_TOKEN: ${{ secrets.FOCUS_ADMIN_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -23,6 +28,32 @@ jobs:
           node-version: 20
       - name: Verify build
         run: npm run build
+      - name: Scan mailboxes for Focus Points
+        # focus.json is generated into the Pages artifact only; it is never committed.
+        # A failed scan still deploys so the dashboard can show the error per person.
+        continue-on-error: true
+        env:
+          FOCUS_CLIENT_ID: ${{ secrets.FOCUS_CLIENT_ID }}
+          FOCUS_TOKEN_RYAN: ${{ secrets.FOCUS_TOKEN_RYAN }}
+          FOCUS_TOKEN_KACEY: ${{ secrets.FOCUS_TOKEN_KACEY }}
+          FOCUS_TOKEN_ALEX: ${{ secrets.FOCUS_TOKEN_ALEX }}
+          FOCUS_TOKEN_JIM: ${{ secrets.FOCUS_TOKEN_JIM }}
+          FOCUS_ROTATED_FILE: ${{ runner.temp }}/focus-rotated.json
+        run: npm run focus:scan
+      - name: Rotate refresh tokens
+        # Optional: keeps the per-person sign-in alive indefinitely. Needs a PAT with
+        # "secrets" write access on this repo stored as FOCUS_ADMIN_TOKEN.
+        if: env.FOCUS_ADMIN_TOKEN != ''
+        env:
+          GH_TOKEN: ${{ secrets.FOCUS_ADMIN_TOKEN }}
+          ROTATED: ${{ runner.temp }}/focus-rotated.json
+        run: |
+          if [ -f "$ROTATED" ]; then
+            for name in $(node -e 'console.log(Object.keys(require(process.env.ROTATED)).join(" "))'); do
+              node -e 'process.stdout.write(require(process.env.ROTATED)[process.argv[1]])' "$name" \
+                | gh secret set "$name" --repo "$GITHUB_REPOSITORY"
+            done
+          fi
       - uses: actions/configure-pages@v5
         with:
           enablement: true
