@@ -80,7 +80,7 @@ TASK_ID: TCH-DOOR-PAGES-01
 PRIORITY: P0
 OWNER: Cursor Grok
 REVIEWER:
-STATUS: ACTIVE
+STATUS: REVIEW
 START_SHA: c53e12ed9c949a3fae8ff88dd734f01631561046
 LAST_REVIEWED_SHA:
 ACCEPTANCE_CRITERIA: Door points at https://www.tchworks.co.uk/; npm run verify passes; Pages workflow no longer fails on enablement: true; CI stays green when Pages is not enabled.
@@ -99,4 +99,14 @@ Keep this section short. Deferred items are not authorised work.
 
 Add only material handoffs or reviews. Do not append acknowledgements.
 
-- 2026-10-16 Cursor Grok: Pages workflow has failed on every run because `enablement: true` cannot create a Pages site with `GITHUB_TOKEN`. Door copy still pointed at github.io instead of www.tchworks.co.uk. Fixing both.
+- 2026-10-16 Cursor Grok: Pages workflow has failed on every run because `enablement: true` cannot create a Pages site with `GITHUB_TOKEN`. Door copy still pointed at github.io instead of www.tchworks.co.uk.
+
+```text
+STATUS: REVIEW
+CHANGED: Door now redirects to https://www.tchworks.co.uk/. Pages workflow verifies on every push and only deploys if Pages is already enabled on main.
+VERIFIED: npm run verify; GitHub Actions run 38840086226 success on cursor/fix-pages-door-6171.
+RISK/BLOCKER: This token cannot enable Pages (403). Live door remains https://www.tchworks.co.uk/tch-connect/.
+NEXT: Ryan can open the PR from cursor/fix-pages-door-6171. Optional: enable Pages in repo settings.
+NEEDS_RYAN: yes (PR creation is blocked by repo settings; Pages enablement is optional)
+COMMIT_SHA: 39a2519
+```
