@@ -2,32 +2,63 @@ name: pages
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: pages-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify door
+        run: npm run verify
+
+  pages-status:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ steps.pages.outputs.enabled }}
+    steps:
+      - name: Detect Pages site
+        id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh api "repos/${{ github.repository }}/pages" >/dev/null 2>&1; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::GitHub Pages is not enabled on tch-connect. Door verification still runs. The live door is https://www.tchworks.co.uk/tch-connect/. Enable Pages (Settings → Pages → Source: GitHub Actions) only if this repo should serve its own URL."
+          fi
+
   deploy:
+    needs: [verify, pages-status]
+    if: github.event_name != 'pull_request' && needs.pages-status.outputs.enabled == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Verify build
-        run: npm run build
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
+      - name: Stage public door
+        run: |
+          mkdir -p _site
+          cp index.html live.json .nojekyll _site/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4

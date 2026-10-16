@@ -75,12 +75,28 @@ No P2/P3 work should delay a P0/P1 task.
 
 ## Current active task
 
-None recorded here. Do not invent one. If Ryan activates work in this repository, create one task record above before substantial development.
+```text
+TASK_ID: TCH-DOOR-PAGES-01
+PRIORITY: P0
+OWNER: Cursor Grok
+REVIEWER:
+STATUS: ACTIVE
+START_SHA: c53e12ed9c949a3fae8ff88dd734f01631561046
+LAST_REVIEWED_SHA:
+ACCEPTANCE_CRITERIA: Door points at https://www.tchworks.co.uk/; npm run verify passes; Pages workflow no longer fails on enablement: true; CI stays green when Pages is not enabled.
+STOP_CONDITION: Verify passes and workflow no longer attempts to create a Pages site with GITHUB_TOKEN.
+MAX_REVIEW_CYCLES: 2
+REVIEW_CYCLES_USED: 0
+```
 
 ## Deferred
 
 Keep this section short. Deferred items are not authorised work.
 
+- Serving a second GitHub Pages URL from this repo. The live door is already https://www.tchworks.co.uk/tch-connect/. Enable Pages in repo settings if a project-site URL is still wanted.
+
 ## Agent handoff log
 
 Add only material handoffs or reviews. Do not append acknowledgements.
+
+- 2026-10-16 Cursor Grok: Pages workflow has failed on every run because `enablement: true` cannot create a Pages site with `GITHUB_TOKEN`. Door copy still pointed at github.io instead of www.tchworks.co.uk. Fixing both.
