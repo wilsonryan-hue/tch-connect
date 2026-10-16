@@ -75,7 +75,21 @@ No P2/P3 work should delay a P0/P1 task.
 
 ## Current active task
 
-None recorded here. Do not invent one. If Ryan activates work in this repository, create one task record above before substantial development.
+```text
+TASK_ID: PAGES-DEPLOY-FIX
+PRIORITY: P0
+OWNER: Cursor
+REVIEWER: —
+STATUS: NEEDS_RYAN
+START_SHA: c53e12e
+LAST_REVIEWED_SHA: c53e12e
+ACCEPTANCE_CRITERIA: `pages` workflow completes on push to main and the door is served at the repo's Pages URL.
+STOP_CONDITION: One green `pages` run after Pages is enabled in repo settings.
+MAX_REVIEW_CYCLES: 2
+REVIEW_CYCLES_USED: 0
+```
+
+Every `pages` run since 2026-08-17 failed at `actions/configure-pages` with `Create Pages site failed. Error: Resource not accessible by integration`. The action's `enablement` input requires a token other than `GITHUB_TOKEN`, so the workflow could never create the site. `enablement: true` has been removed. Remaining blocker is a one-time admin action: **Settings > Pages > Source: GitHub Actions**. Do not retry the workflow or add tokens/secrets to work around this.
 
 ## Deferred
 
