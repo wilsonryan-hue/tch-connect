@@ -1,7 +1,6 @@
 name: pages
 on:
   push:
-    branches: [main]
   pull_request:
   workflow_dispatch:
 
@@ -12,7 +11,7 @@ permissions:
 
 concurrency:
   group: pages-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   verify:
@@ -26,7 +25,7 @@ jobs:
         run: npm run verify
 
   pages-status:
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     outputs:
       enabled: ${{ steps.pages.outputs.enabled }}
@@ -45,7 +44,7 @@ jobs:
 
   deploy:
     needs: [verify, pages-status]
-    if: github.event_name != 'pull_request' && needs.pages-status.outputs.enabled == 'true'
+    if: needs.pages-status.outputs.enabled == 'true' && (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     environment:
       name: github-pages
